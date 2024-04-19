@@ -38,18 +38,35 @@ export function UploadSVG() {
     );
 }
 
+function LoadingSpinnerSVG() {
+    return (
+        <svg width="24" height="24" viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="white"
+        >
+            <circle className="spinner_S1WN" cx="4" cy="12" r="3" />
+            <circle className="spinner_S1WN spinner_Km9P" cx="12" cy="12" r="3" />
+            <circle className="spinner_S1WN spinner_JApP" cx="20" cy="12" r="3" />
+        </svg>
+    );
+}
+
 export function UploadButton() {
     const router = useRouter();
     const { inputProps } = useUploadThingInputProps("imageUploader", {
         onUploadBegin() {
-            toast("Uploading...", {
-                duration: 100000,
-                id: "upload-begin"
-            });
+            toast(
+                <div className="flex gap-2 items-center text-white">
+                    <span className="text-lg">Uploading</span><LoadingSpinnerSVG />
+                </div>,
+                {
+                    duration: 100000,
+                    id: "upload-begin"
+                });
         },
         onClientUploadComplete() {
             toast.dismiss("upload-begin");
-            toast("Upload Complete!");
+            toast(<span className="text-lg">Upload Complete!</span>);
             router.refresh();
         }
     });
